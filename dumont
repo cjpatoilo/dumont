@@ -1,0 +1,95 @@
+#!/bin/bash
+# set -e # Exit with nonzero exit code if anything fails
+
+# statement
+REMOTE="$(git config remote.origin.url)"
+DIRECTORY="dist"
+BRANCH="gh-pages"
+HELP="Usage:
+
+  dumont <directory> [<options>]
+
+Options:
+
+  -h, --help              Display help information
+  -v, --version           Output version
+
+Examples:
+
+  dumont
+  dumont dist"
+
+# options
+for ARGS in "$@"
+do
+	if [ "${ARGS}" = "-h" ] || [ "${ARGS}" = "--help" ]
+	then
+		echo "${HELP}"
+		exit 0
+	fi
+	if [ "${ARGS}" = "-v" ] || [ "${ARGS}" = "--version" ]
+	then
+		seq "${#@}" | grep -m1 version package.json | awk -F: "{ print ${INDEX} }" | sed -E -e 's/[version:",[:blank:]]+//g'
+		exit 0
+	fi
+done
+
+# verification
+if [ "$#" -gt 1 ]
+then
+	echo -e "\033[0;31m${HELP}"
+	exit 2
+fi
+
+# arguments
+if [ -n "${1}" ]
+then
+	DIRECTORY=$1
+	if [[ "${DIRECTORY}" =~ .*['!'@~#\$%:^\&*{}()_+].* ]]
+	then
+		echo -e "\033[0;31mdumont: Bad name \"${DIRECTORY}\""
+		exit 2
+	fi
+fi
+if [ -n "${2}" ]
+then
+	BRANCH=$2
+fi
+
+# prepare
+rm -rf node_modules/dumont/"${BRANCH}"
+if [ -z "$(git ls-remote --heads ${REMOTE} ${BRANCH})" ]
+then
+	git clone "${REMOTE}" node_modules/dumont/"${BRANCH}"
+	cd node_modules/dumont/"${BRANCH}" || exit 1
+	git checkout --orphan "${BRANCH}"
+	echo "dumont: Creating a new branch \"${BRANCH}\""
+else
+	git clone -b "${BRANCH}" --single-branch "${REMOTE}" node_modules/dumont/"${BRANCH}"
+	cd node_modules/dumont/"${BRANCH}" || exit 1
+	echo "dumont: Connecting with branch \"${BRANCH}\""
+fi
+
+# update
+rm -rf ./*
+cp -rf ../../../"${DIRECTORY}"/* ./
+
+# diff
+if [ -z "$(git diff --exit-code)" ]
+then
+	cd ..
+	rm -rf "${BRANCH}"
+	echo "dumont: No changes on this push"
+	exit 0
+fi
+
+# push
+git add .
+git commit -m "dumont: Deploy to GitHub Pages: $(git rev-parse --verify HEAD)"
+git push origin "${BRANCH}"
+
+# clean
+cd ..
+rm -rf "${BRANCH}"
+echo "dumont: Deployed successfully on this push"
+exit 0
