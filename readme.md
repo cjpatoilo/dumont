@@ -3,8 +3,8 @@
 > Deployment to GitHub Pages.
 
 [![Travis Status](https://travis-ci.org/cjpatoilo/dumont.svg?branch=master)](https://travis-ci.org/cjpatoilo/dumont?branch=master)
-[![AppVeyor Status](https://ci.appveyor.com/api/projects/status/xqipsriuq9w0ygla?svg=true)](https://ci.appveyor.com/project/cjpatoilo/dumont)
-[![Codacy Status](https://img.shields.io/codacy/grade/993946b7db91463c82d743590966b02b/master.svg)](https://www.codacy.com/app/cjpatoilo/dumont/dashboard)
+[![AppVeyor Status](https://ci.appveyor.com/api/projects/status/94tsjbotyi6325k4?svg=true)](https://ci.appveyor.com/project/cjpatoilo/dumont)
+[![Codacy Status](https://img.shields.io/codacy/grade/3a3a6c067e2c43f28444e4130cb3510d/master.svg)](https://www.codacy.com/app/cjpatoilo/dumont/dashboard)
 [![Dependencies Status](https://david-dm.org/cjpatoilo/dumont/status.svg)](https://david-dm.org/cjpatoilo/dumont)
 [![Version Status](https://badge.fury.io/js/dumont.svg)](https://www.npmjs.com/package/dumont)
 [![Download Status](https://img.shields.io/npm/dt/dumont.svg)](https://www.npmjs.com/package/dumont)
