@@ -47,7 +47,7 @@ then
 	DIRECTORY=$1
 	if [[ "${DIRECTORY}" =~ .*['!'@~#\$%:^\&*{}()_+].* ]]
 	then
-		echo -e "\033[0;31mdumont: Bad name \"${DIRECTORY}\""
+		echo -e "\033[0;31mdumont: bad name \"${DIRECTORY}\""
 		exit 2
 	fi
 fi
@@ -63,11 +63,11 @@ then
 	git clone "${REMOTE}" node_modules/dumont/"${BRANCH}"
 	cd node_modules/dumont/"${BRANCH}" || exit 1
 	git checkout --orphan "${BRANCH}"
-	echo "dumont: Creating a new branch \"${BRANCH}\""
+	echo "dumont: creating a new branch \"${BRANCH}\""
 else
 	git clone -b "${BRANCH}" --single-branch "${REMOTE}" node_modules/dumont/"${BRANCH}"
 	cd node_modules/dumont/"${BRANCH}" || exit 1
-	echo "dumont: Connecting with branch \"${BRANCH}\""
+	echo "dumont: connecting with branch \"${BRANCH}\""
 fi
 
 # update
@@ -79,17 +79,17 @@ if [ -z "$(git diff --exit-code)" ]
 then
 	cd ..
 	rm -rf "${BRANCH}"
-	echo "dumont: No changes on this push"
+	echo "dumont: no changes on this push"
 	exit 0
 fi
 
 # push
 git add .
-git commit -m "dumont: Deploy to GitHub Pages: $(git rev-parse --verify HEAD)"
+git commit -m "dumont: deploy to GitHub Pages: $(git rev-parse --verify HEAD)"
 git push origin "${BRANCH}"
 
 # clean
 cd ..
 rm -rf "${BRANCH}"
-echo "dumont: Deployed successfully on this push"
+echo "dumont: deployed successfully on this push"
 exit 0
