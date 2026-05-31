@@ -1,6 +1,6 @@
 {
 	"name": "dumont",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "Deployment to GitHub Pages.",
 	"homepage": "https://cjpatoilo.com/dumont",
 	"repository": "cjpatoilo/dumont",
@@ -46,7 +46,7 @@
 		"test": "nyc ava"
 	},
 	"engines": {
-		"node": "^12.13.0"
+		"node": "^24.13.0"
 	},
 	"prettier": {
 		"jsxSingleQuote": false,
